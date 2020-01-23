@@ -1,57 +1,53 @@
-package com.mygdx.game;
+package com.mygdx.game.scenes;
 
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.mygdx.game.CandyCrush;
+import com.mygdx.game.Chuche;
+import com.mygdx.game.utils.Constants;
 
 public class MainScreen implements Screen{
-    final Drop game;
-
+    CandyCrush game;
+    Chuche chuche;
     OrthographicCamera camera;
+    Music mainTheme = Constants.mainTheme;
 
-
-    public MainScreen(final Drop gam) {
-
-        game = gam;
-
-
+    public MainScreen(CandyCrush game) {
+        this.game = game;
+    }
+    public void show() {
         camera = new OrthographicCamera();
-
         camera.setToOrtho(false, 800, 480);
+        mainTheme.setLooping(true);
+        mainTheme.play();
+        chuche = new Chuche();
 
     }
-
-
 
     @Override
 
     public void render(float delta) {
+        game.camera.update();
+        game.batch.setProjectionMatrix(game.camera.combined);
 
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-        camera.update();
-
-        game.batch.setProjectionMatrix(camera.combined);
-
-
         game.batch.begin();
-
-        game.font.draw(game.batch, "Welcome al juegazo llamado Drop!!! ", 100, 150);
-
-        game.font.draw(game.batch, "Toca la pantalla para empezar!", 100, 100);
+        //draw
+        //game.batch.draw(Constants.backgroundTexture, 0, 0);
+        //game.batch.draw(Constants.frogTexture, player.x, player.y);
 
         game.batch.end();
 
-
         if (Gdx.input.isTouched()) {
             System.out.println("Screen touched");
-            game.setScreen(new GameScreen(game));
+            //game.setScreen(new GameScreen(game));
 
             dispose();
 
@@ -60,16 +56,13 @@ public class MainScreen implements Screen{
     }
 
     @Override
-
     public void resize(int width, int height) {
 
     }
 
 
 
-    public void show() {
 
-    }
 
 
 
